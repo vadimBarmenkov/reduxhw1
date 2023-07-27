@@ -7,7 +7,6 @@ function configureStore(){
         combineReducers({
             add: numberReducer,
         }),
-
     );
 }
 

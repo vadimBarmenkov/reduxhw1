@@ -12,7 +12,7 @@ const numberReducer = (state = defaultState, action) => {
 
             return{
                 ...state,
-                products: [...state.products, state.products[action.payload.index].name = action.payload.name, state.products[action.payload.index].price = action.payload.price],
+                products: [...state.products.slice(0, Number(action.payload.index)), action.payload,...state.products.slice(Number(action.payload.index) + 1)],
             }
         case SET_PRODUCT:
             return {

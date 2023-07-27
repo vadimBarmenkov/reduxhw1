@@ -20,11 +20,15 @@ export const MainPage = () => {
             dispatch({type: 'SET_PRODUCT', payload: {name: productName, price: productPrice, index: viewProductList.length}});
         }else {
             dispatch({type: "CHANGE_PRODUCT", payload: {name: productName, price: productPrice, index: changeIndex}});
+            setProductName("");
+            setProductPrice(0);
+            setTest(true);
         }
     }
 
 
     useEffect(() => {
+        console.log("viewProductList: " + viewProductList);
         if (filterInput == ''){
             setProductList(viewProductList);
         }else{
@@ -34,15 +38,14 @@ export const MainPage = () => {
 
     const productFilter = (event) => {
         setFilterInput(event.target.value)
-        const result = viewProductList.filter(product => product.name.includes(event.target.value));
         if (event.target.value == ''){
             setProductList(viewProductList);
         }else{
-            setProductList(result);
+            setProductList(viewProductList.filter(product => product.name.includes(event.target.value)));
         }
     }
 
-    function remove(index) {
+    const remove = (index) => {
         dispatch({type: 'DELETE_PRODUCT', payload: index})
     }
 
@@ -52,15 +55,9 @@ export const MainPage = () => {
         setTest(true);
     }
 
-    const saveChangeBtn = (index) => {
-        dispatch({type: "CHANGE_PRODUCT", payload: {name: productName, price: productPrice, index: index}});
-        setTest(true)
-
-    }
-
-    function changeBtn(index) {
+    const changeBtn = (index) => {
         setProductName(viewProductList[index].name);
-        setProductPrice(viewProductList[index].products);
+        setProductPrice(viewProductList[index].price);
         console.log("product name: " + viewProductList[index].name +
         "  product price" + viewProductList[index].price);
 
@@ -78,6 +75,7 @@ export const MainPage = () => {
                 <input type={"string"} value={filterInput} onChange={event => productFilter(event)}/>
             </form>
             <div>
+                {console.log("productList: " + productList)}
                 {productList.map((element, index) =>
                     <ul key={index}>{element.name}  {element.price}
                         <button onClick={() => changeBtn(element.index)}>change</button>
